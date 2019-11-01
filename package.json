@@ -1,0 +1,39 @@
+{
+  "name": "haircut",
+  "version": "1.0.0",
+  "description": "Consolidated professional presence management.",
+  "main": "server.js",
+  "scripts": {
+    "build": "npm run clean && babel -d ./build ./src -s",
+    "start": "npm run build && nodemon ./src/server.js",
+    "clean": "rm -rf ./build && mkdir build",
+    "heroku-postbuild": "npm install && npm run build",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^2.5.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "firebase": "^7.2.3",
+    "firebaseui": "^4.2.0",
+    "helmet": "^3.21.2",
+    "module-alias": "^2.2.2",
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  },
+  "_moduleAliases": {
+    "@root": "src",
+    "@test": "test"
+  },
+  "author": "Phaedrus Alexander Raznikov",
+  "license": "ISC"
+}
