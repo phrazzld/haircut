@@ -22,9 +22,26 @@ app.set('view engine', 'ejs');
 // Set up our static files
 app.use(express.static(__dirname + '/public'));
 
+// Ensure https requests in production
+if (config.isProd) {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
+}
+
 app.get('/', (req, res) => {
   res.render('home', {
     title: 'Haircut',
+  });
+});
+
+app.post('/auth/linkedin/callback', (req, res) => {
+  console.log('LinkedIn Auth callback hit');
+  console.log(req);
+  res.render('home', {
+    title: 'Haircut - Logged In Stub',
   });
 });
 
