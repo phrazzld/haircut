@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const helmet = require('helmet');
+const config = require('@root/config');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
