@@ -8,6 +8,7 @@
     "start": "npm run build && nodemon ./src/server.js",
     "clean": "rm -rf ./build && mkdir build",
     "heroku-postbuild": "npm install && npm run build",
+    "preinstall": "node ./gcpSetup.js",
     "test": "mocha"
   },
   "dependencies": {
