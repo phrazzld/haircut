@@ -14,123 +14,16 @@
 
         <div class="container">
 
-            <!-- SIGN UP MODAL -->
-            <div id="modal-signup" class="modal">
-                <div class="modal-content">
-                    <h4>Sign up</h4><br />
-                    <form id="signup-form">
-                        <div class="input-field">
-                            <input type="email" id="signup-email" required />
-                            <label for="signup-email">Email address</label>
-                        </div>
-                        <div class="input-field">
-                            <input type="password" id="signup-password" required />
-                            <label for="signup-password">Choose password</label>
-                        </div>
-                        <button class="btn darken-2 z-depth-0">Sign up</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- LOGIN MODAL -->
-            <div id="modal-login" class="modal">
-                <div class="modal-content">
-                    <h4>Login</h4><br />
-                    <form id="login-form">
-                        <div class="input-field">
-                            <input type="email" id="login-email" required />
-                            <label for="login-email">Email address</label>
-                        </div>
-                        <div class="input-field">
-                            <input type="password" id="login-password" required />
-                            <label for="login-password">Your password</label>
-                        </div>
-                        <button class="btn darken-2 z-depth-0">Login</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- ACCOUNT MODAL -->
-            <div id="modal-account" class="modal">
-                <div class="modal-content center-align">
-                    <h4>Account details</h4><br />
-                    <div class="account-details"></div>
-                </div>
-            </div>
-
             <div id='nav'>
                 <ul id='sitemap'>
                     <li><a href='/'>Home</a></li>
                     <li class="logged-in">
-                        <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
-                    </li>
-                    <li class="logged-in">
-                        <a href="#" id="logout" class="modal-trigger" data-target="modal-logout">Logout</a>
+                        <a href="/logout" id="logout">Logout</a>
                     </li>
                     <li class="logged-out">
-                        <a href="#" class="modal-trigger" data-target="modal-login">Login</a>
-                    </li>
-                    <li class="logged-out">
-                        <a href="#" class="modal-trigger" data-target="modal-signup">Sign Up</a>
+                        <a href="/auth/linkedin">Login</a>
                     </li>
                 </ul>
             </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-        <!-- CUSTOM AUTH JS -->
-        <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function() {
-                const modals = document.querySelectorAll('.modal')
-                M.Modal.init(modals)
-            })
-
-            const loggedOutLinks = document.querySelectorAll('.logged-out')
-            const loggedInLinks = document.querySelectorAll('.logged-in')
-            const accountDetails = document.querySelector('.account-details')
-
-            const setUpUI = user => {
-                if (user) {
-                    const html = `
-                        <div>Logged in as ${user.email}</div>
-                    `
-                    accountDetails.innerHTML = html
-                    loggedInLinks.forEach(link => { link.style.display = 'block' })
-                    loggedOutLinks.forEach(link => { link.style.display = 'none' })
-                } else {
-                    accountDetails.innerHTML = ''
-                    loggedInLinks.forEach(link => { link.style.display = 'none' })
-                    loggedOutLinks.forEach(link => { link.style.display = 'block' })
-                }
-            }
-
-            // signup
-            const signupForm = document.querySelector('#signup-form')
-            signupForm.addEventListener('submit', e => {
-                console.log("Signup form submitted.")
-                e.preventDefault()
-                // get user info
-                const email = signupForm['signup-email'].value
-                const password = signupForm['signup-password'].value
-                // sign up the user
-                console.log("User signed up stub")
-            })
-
-            // logout
-            const logout = document.querySelector('#logout')
-            logout.addEventListener('click', e => {
-                e.preventDefault()
-                console.log("User logged out stub")
-            })
-
-            // login
-            const loginForm = document.querySelector('#login-form')
-            loginForm.addEventListener('submit', e => {
-                e.preventDefault()
-                // get user info
-                const email = loginForm['login-email'].value
-                const password = loginForm['login-password'].value
-                // login the user
-                console.log("User logged in stub")
-            })
-        </script>
