@@ -11,6 +11,7 @@ const session = require('express-session');
 const path = require('path');
 const flash = require('connect-flash');
 const db = require('@root/db');
+const passport = require('passport');
 
 // Always wear a helmet
 app.use(helmet());
@@ -27,68 +28,10 @@ app.use(
   }),
 );
 
-// Set up authentication
-const passport = require('passport');
-const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+// Config authentication
+const auth = require('@root/auth');
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(
-  new LinkedInStrategy(
-    {
-      clientID: config.linkedInKey,
-      clientSecret: config.linkedInSecret,
-      callbackURL: config.linkedInCallbackURL,
-      profileFields: [
-        'first-name',
-        'last-name',
-        'email-address',
-        'headline',
-        'summary',
-        'industry',
-        'picture-url',
-        'positions',
-        'public-profile-url',
-        'location',
-      ],
-      scope: ['r_emailaddress', 'r_liteprofile'],
-      state: true,
-      passReqToCallback: true,
-    },
-    async function(req, accessToken, refreshToken, profile, done) {
-      process.nextTick(async function() {
-        console.log(`new LinkedInStrategy::callback:process.nextTick`);
-        try {
-          await db.createUser(JSON.stringify(profile));
-          const user = {
-            id: profile.id,
-            name: profile.displayName,
-            email: profile.emails[0].value,
-          };
-          return done(null, user);
-        } catch (err) {
-          return done(err, null);
-        }
-      });
-    },
-  ),
-);
-
-passport.serializeUser((user, done) => {
-  console.log('passport.serializeUser');
-  console.log(`user.id: ${user.id}`);
-  return done(null, user.id);
-});
-passport.deserializeUser((id, done) => {
-  console.log(`passport.deserializeUser::id: ${id}`);
-  try {
-    db.getUser(id).then(user => {
-      return done(null, user);
-    });
-  } catch (err) {
-    console.error(err);
-    return done(err, null);
-  }
-});
 
 // Set up our views
 app.set('views', path.join(__dirname, 'views'));
