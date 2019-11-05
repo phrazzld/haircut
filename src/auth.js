@@ -49,11 +49,10 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   console.log('passport.serializeUser');
-  console.log(`user.id: ${user.id}`);
   return done(null, user.id);
 });
 passport.deserializeUser((id, done) => {
-  console.log(`passport.deserializeUser::id: ${id}`);
+  console.log(`passport.deserializeUser`);
   try {
     db.getUser(id).then(user => {
       return done(null, user);
@@ -63,3 +62,18 @@ passport.deserializeUser((id, done) => {
     return done(err, null);
   }
 });
+
+const check = (req, res, next) => {
+  if (req.user != null) return next();
+  return res.status(401).redirect('/error/401');
+};
+
+module.exports = {
+  check,
+  withLinkedIn: passport.authenticate('linkedin'),
+  linkedInCallbackHandler: passport.authenticate('linkedin', {
+    successRedirect: '/account',
+    failureRedirect: '/error/500',
+    failureFlash: true,
+  }),
+};

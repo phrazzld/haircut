@@ -10,8 +10,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 const flash = require('connect-flash');
-const db = require('@root/db');
 const passport = require('passport');
+const routes = require('@routes/index');
 
 // Always wear a helmet
 app.use(helmet());
@@ -50,47 +50,6 @@ if (config.isProd) {
   });
 }
 
-app.get('/', (req, res) => {
-  console.log('GET /home');
-  res.render('home', {
-    title: 'Haircut',
-  });
-});
-
-app.get('/login', (req, res) => {
-  console.log('GET /login');
-  res.render('login', {
-    title: 'Login',
-  });
-});
-
-app.get('/logout', (req, res) => {
-  console.log('GET /logout');
-  req.logout();
-  res.redirect('/');
-});
-
-app.get('/account', async (req, res) => {
-  console.log('GET /account');
-  console.log('req.user');
-  console.log(req.user);
-  res.render('account', {
-    title: 'Account',
-    name: req.user.displayName,
-  });
-});
-
-app.get('/auth/linkedin', passport.authenticate('linkedin'), (req, res) => {
-  console.log('GET /auth/linkedin');
-});
-
-app.get(
-  '/auth/linkedin/callback',
-  passport.authenticate('linkedin', {
-    successRedirect: '/account',
-    failureRedirect: '/login',
-    failureFlash: true,
-  }),
-);
+app.use('/', routes);
 
 module.exports = app;

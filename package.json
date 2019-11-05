@@ -37,6 +37,8 @@
   },
   "_moduleAliases": {
     "@root": "src",
+    "@routes": "src/routes",
+    "@controllers": "src/controllers",
     "@test": "test"
   },
   "author": "Phaedrus Alexander Raznikov",
